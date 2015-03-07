@@ -1,7 +1,7 @@
 execute pathogen#infect()
 
 "Désactive le masquage des caractères
-let g:vim_json_syntax_conceal = 0
+"let g:vim_json_syntax_conceal = 0
 
 syntax on
 set nowrap
@@ -28,6 +28,11 @@ set laststatus=2
 set viminfo="NONE"
 
 set autoindent
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 " dt<char> supprime tout jusqu'au caractère
 " >i{ indente le contenu du bloc en cours
