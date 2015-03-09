@@ -2,6 +2,7 @@ execute pathogen#infect()
 
 "Basic settings {{{
 
+set nowrap
 "Deactivate quote hiding in json files (quite annoying)
 let g:vim_json_syntax_conceal = 0
 "Insert space instead of tabs
@@ -64,7 +65,7 @@ augroup END
 "Python settings {{{ 
 augroup filetype_python
     autocmd!
-    autocmd FileType python setlocal nowrap number nolist nowrapscan nohlsearch
+    autocmd FileType python setlocal number nolist nowrapscan nohlsearch textwidth=80
     "Adds python single-line comments
     autocmd FileType python nnoremap <buffer> <localleader>c I#<esc>
     autocmd FileType python nnoremap <buffer> <localleader>cl /class \zs<cr>
