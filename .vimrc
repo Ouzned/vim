@@ -47,10 +47,11 @@ nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
 nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel
-
 inoremap jk <esc>
-
 vnoremap <leader>" <esc>`<i"<esc>`><esc>la"
+onoremap b /return<cr>
+onoremap in( :<c-u>normal! f(vi(<cr>
+onoremap il( :<c-u>normal! F)vi(<cr>
 
 augroup html
     autocmd!
@@ -66,13 +67,19 @@ augroup END
 
 augroup python
     autocmd!
+    autocmd FileType python setlocal nowrap number nolist nowrapscan nohlsearch
     autocmd FileType python nnoremap <buffer> <localleader>c I#<esc>
-    autocmd FileType python setlocal nowrap number nolist
+    autocmd FileType python nnoremap <buffer> <localleader>cl /class \zs<cr>
+    autocmd FileType python nnoremap <buffer> <localleader>CL ?class \zs<cr>
+    autocmd FileType python nnoremap <buffer> <localleader>f /def \zs<cr>
+    autocmd FileType python nnoremap <buffer> <localleader>F ?def \zs<cr>
+    autocmd FileType python onoremap <buffer> cl :<c-u>execute "normal! ?class \\zs\rvt:"<cr>
+    autocmd FileType python onoremap <buffer> f :<c-u>execute "normal! ?def \\zs\rvt("<cr>
     autocmd FileType python iabbrev <buffer> iff if:<left>
-    autocmd FileType python iabbrev <buffer> c class:<left>
+    autocmd FileType python iabbrev <buffer> c class:<cr>"""<cr>"""<esc>ko<tab>@docstring<esc>kk$i
     autocmd FileType python iabbrev <buffer> p print
     autocmd FileType python iabbrev <buffer> r return
-    autocmd FileType python iabbrev <buffer> d def:<left>
+    autocmd FileType python iabbrev <buffer> d def:<cr>"""<cr>"""<esc>ko<tab>@docstring<esc>kk$i
     autocmd FileType python iabbrev <buffer> f from
     autocmd FileType python iabbrev <buffer> i import
     autocmd FileType python iabbrev <buffer> s self
