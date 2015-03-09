@@ -3,9 +3,6 @@ execute pathogen#infect()
 "Désactive le masquage des caractères
 let g:vim_json_syntax_conceal = 0
 
-"Ne coupe pas les lignes longues
-set nowrap
-
 "Inserer des espaces à la place des tabulations
 set expandtab
 
@@ -44,19 +41,39 @@ filetype indent plugin on
 set omnifunc=syntaxcomplete#Complete
 
 let mapleader = "ù"
+let maplocalleader = "ù"
 
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
 nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel
 
+inoremap jk <esc>
+
 vnoremap <leader>" <esc>`<i"<esc>`><esc>la"
 
-inoremap jk <esc>
-inoremap <esc> <nop>
+augroup html
+    autocmd!
+    autocmd BufRead *.html :normal gg=G
+    autocmd BufNewFile,BufRead *.html setlocal nowrap
+    autocmd FileType html nnoremap <buffer> <localleader>f Vatzf
+augroup END
 
-iabbrev @@ francois.gerodez@gmail.com
-iabbrev ccopy Copyright 2015 Francois Gerodez, all rights reserved
+augroup javascript
+    autocmd!
+    autocmd FileType javascript nnoremap <buffer> <localleader>c I//<esc>
+augroup END
 
-autocmd BufRead *.html :normal gg=G
-autocmd BufNewFile,BufRead *.html setlocal nowrap
+augroup python
+    autocmd!
+    autocmd FileType python nnoremap <buffer> <localleader>c I#<esc>
+    autocmd FileType python setlocal nowrap number nolist
+    autocmd FileType python iabbrev <buffer> iff if:<left>
+    autocmd FileType python iabbrev <buffer> c class:<left>
+    autocmd FileType python iabbrev <buffer> p print
+    autocmd FileType python iabbrev <buffer> r return
+    autocmd FileType python iabbrev <buffer> d def:<left>
+    autocmd FileType python iabbrev <buffer> f from
+    autocmd FileType python iabbrev <buffer> i import
+    autocmd FileType python iabbrev <buffer> s self
+augroup END
