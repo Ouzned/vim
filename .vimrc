@@ -1,7 +1,6 @@
 execute pathogen#infect()
 
 "Basic settings {{{
-
 set nowrap
 "Deactivate quote hiding in json files (quite annoying)
 let g:vim_json_syntax_conceal = 0
@@ -25,9 +24,15 @@ set autoindent
 set incsearch
 "Surligner les matchs de recherche
 set hlsearch
+"Set background color
+set background=dark
+"Select nice colorscheme
+colorscheme solarized
 "Activate syntax coloring
 syntax on
+"Active des trucs
 filetype indent plugin on
+"Custom key used for mappings
 let mapleader = "ù"
 let maplocalleader = "ù"
 " }}}
@@ -100,3 +105,13 @@ augroup filetype_vim
     autocmd FileType vim nnoremap <buffer> <localleader>c I"<esc>
 augroup END
 " }}}
+
+"PHP settings  {{{
+augroup filetype_php
+    autocmd!
+    "Open Taglist side window
+"    autocmd FileType php TlistOpen
+    autocmd FileType php iabbrev <buffer> mh Mage::helper('')<esc>hhi
+augroup END
+" }}}
+
