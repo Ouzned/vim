@@ -3,7 +3,9 @@ execute pathogen#infect()
 "Basic settings {{{
 set nowrap
 "Deactivate quote hiding in json files (quite annoying)
-let g:vim_json_syntax_conceal = 0
+let g:vim_json_syntax_conceal=0
+"Activate xml folding
+let g:xml_syntax_folding=1
 "Insert space instead of tabs
 set expandtab
 "Inserer 4 espaces à la place d'une tabulation
@@ -28,21 +30,23 @@ set hlsearch
 set background=dark
 "Select nice colorscheme
 colorscheme solarized
+filetype indent plugin on
 "Activate syntax coloring
 syntax on
-"Active des trucs
-filetype indent plugin on
 "Custom key used for mappings
 let mapleader = "ù"
 let maplocalleader = "ù"
 " }}}
 
 "Global mappings {{{
-
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>ev :70vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
 nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel
+nnoremap <leader>t <c-]>
+nnoremap <leader>tw <c-w>]
+nnoremap <leader>tn :tnext<cr>
+nnoremap <leader>tp :tprev<cr>
 inoremap jk <esc>
 vnoremap <leader>" <esc>`<i"<esc>`><esc>la"
 onoremap b /return<cr>
@@ -53,10 +57,17 @@ onoremap il( :<c-u>normal! F)vi(<cr>
 "HTML settings {{{
 augroup filetype_html
     autocmd!
-    autocmd BufNewFile,BufRead *.html setlocal nowrap
     "Formats the entire file
     autocmd BufRead *.html :normal gg=G
     autocmd FileType html nnoremap <buffer> <localleader>f Vatzf
+augroup END
+" }}}
+
+"XML settings {{{
+augroup filetype_xml
+    autocmd!    
+    autocmd FileType xml setlocal foldlevelstart=3
+    autocmd FileType xml setlocal foldmethod=syntax
 augroup END
 " }}}
 
@@ -71,6 +82,8 @@ augroup END
 augroup filetype_python
     autocmd!
     autocmd FileType python setlocal number nolist nowrapscan nohlsearch textwidth=80
+    autocmd FileType python setlocal foldmethod=indent
+    autocmd FileType python setlocal foldlevelstart=2
     "Adds python single-line comments
     autocmd FileType python nnoremap <buffer> <localleader>c I#<esc>
     autocmd FileType python nnoremap <buffer> <localleader>cl /class \zs<cr>
@@ -106,12 +119,38 @@ augroup filetype_vim
 augroup END
 " }}}
 
+"VIM help settings {{{
+augroup filetype_help
+    "Display all the characters
+    autocmd FileType help setlocal conceallevel=0
+augroup END
+"}}}
+
 "PHP settings  {{{
 augroup filetype_php
     autocmd!
-    "Open Taglist side window
-"    autocmd FileType php TlistOpen
+    "Fold php based on syntax files
+    autocmd FileType php let g:php_folding=1
+    autocmd FileType php let g:php_sql_query=1
+    autocmd FileType php let g:php_htmlInStrings=1
+    autocmd FileType php setlocal foldmethod=syntax
     autocmd FileType php iabbrev <buffer> mh Mage::helper('')<esc>hhi
 augroup END
 " }}}
 
+function! NextSection(type, backwards)
+    if a:type == 1
+        let pattern = 'class \zs.*:$'
+    else
+        let pattern = 'def \zs.*:$'
+    endif
+
+    if a:backwards == 1
+        let dir = '?'
+    else
+        let dir = '/'
+    endif
+
+    execute 'silent normal! ' . dir . pattern . "\r"
+    normal! :nohlsearch
+endfunction
