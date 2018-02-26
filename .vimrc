@@ -14,6 +14,10 @@ set tabstop=4
 set shiftwidth=4
 "Numéro de ligne
 set number
+"Permet de masquer un buffer modifié
+set hidden
+"Active le menu d'autocomplétion
+set wildmenu
 "Affiche les commandes en cours de saisie
 set showcmd
 "Affiche le bandeau du bas avec le nom de fichier
@@ -38,20 +42,36 @@ let mapleader = "ù"
 let maplocalleader = "ù"
 " }}}
 
-"Global mappings {{{
+"Normal mode mappings {{{
 nnoremap <leader>ev :70vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
+" Wraps the word between double quotes
 nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
+" Wraps the word between single quotes
 nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel
+" Jumps to tag definition
 nnoremap <leader>t <c-]>
+" Jumps to tag definition in a new window
 nnoremap <leader>tw <c-w>]
+" Jumps to next matching tag
 nnoremap <leader>tn :tnext<cr>
+" Jumps to previous matching tag
 nnoremap <leader>tp :tprev<cr>
+" Prints buffer list and prompts to select buffer number
+nnoremap <leader>b :buffers<cr>:b<space>
+" }}}
+
+" Insert mode mappings {{{
 inoremap jk <esc>
-vnoremap <leader>" <esc>`<i"<esc>`><esc>la"
-onoremap b /return<cr>
+" }}}
+
+" Operator pending mode mappings {{{
+" Apply command on all text located bewteen next parenthesis
 onoremap in( :<c-u>normal! f(vi(<cr>
+" Apply command on all text located between previous parenthesis
 onoremap il( :<c-u>normal! F)vi(<cr>
+" Apply command up to previous =
+onoremap = :<c-u>normal! F=llv$<cr>
 " }}}
 
 "HTML settings {{{
@@ -75,6 +95,10 @@ augroup END
 augroup filetype_javascript
     autocmd!
     autocmd FileType javascript nnoremap <buffer> <localleader>c I//<esc>
+    autocmd FileType javascript setlocal foldmethod=syntax
+
+    let g:javascript_plugin_jsdoc = 1
+    let g:javascript_plugin_flow = 1
 augroup END
 " }}}
 
@@ -126,6 +150,20 @@ augroup filetype_help
 augroup END
 "}}}
 
+"Haskell settings {{{
+augroup filetype_haskell
+    autocmd FileType haskell nnoremap <buffer> <localleader>g :HdevtoolsType<CR>
+    autocmd FileType haskell nnoremap <buffer> <silent> <localleader>h :HdevtoolsClear<CR>
+augroup END
+"}}}
+
+"CtrlP settings {{{
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\.git$\|\.yardoc\|node_modules\|log\|tmp$',
+  \ 'file': '\.so$\|\.dat$|\.DS_Store$'
+\}
+"}}}
+
 "PHP settings  {{{
 augroup filetype_php
     autocmd!
@@ -134,7 +172,24 @@ augroup filetype_php
     autocmd FileType php let g:php_sql_query=1
     autocmd FileType php let g:php_htmlInStrings=1
     autocmd FileType php setlocal foldmethod=syntax
-    autocmd FileType php iabbrev <buffer> mh Mage::helper('')<esc>hhi
+augroup END
+" }}}
+
+"Syntastic settings {{{
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+" }}}
+
+"CSS settings {{{
+augroup filetype_css
+    autocmd!
+    autocmd FileType css setlocal foldmethod=syntax
 augroup END
 " }}}
 
@@ -154,3 +209,4 @@ function! NextSection(type, backwards)
     execute 'silent normal! ' . dir . pattern . "\r"
     normal! :nohlsearch
 endfunction
+
