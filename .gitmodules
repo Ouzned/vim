@@ -1,9 +1,18 @@
-[submodule "bundle/syntastic"]
-	path = pack/mahoneko/start/syntastic
-	url = https://github.com/scrooloose/syntastic
-[submodule "bundle/vim-colors-solarized"]
-	path = pack/mahoneko/start/vim-colors-solarized
-	url = git://github.com/altercation/vim-colors-solarized.git
-[submodule "bundle/vim-hdevtools"]
+[submodule "pack/mahoneko/start/vim-hdevtools"]
 	path = pack/mahoneko/start/vim-hdevtools
 	url = git://github.com/bitc/vim-hdevtools
+[submodule "pack/mahoneko/start/ale"]
+	path = pack/mahoneko/start/ale
+	url = https://github.com/w0rp/ale.git
+[submodule "pack/mahoneko/start/vim-javascript"]
+	path = pack/mahoneko/start/vim-javascript
+	url = https://github.com/pangloss/vim-javascript.git
+[submodule "pack/mahoneko/start/vim-jsx"]
+	path = pack/mahoneko/start/vim-jsx
+	url = https://github.com/mxw/vim-jsx.git
+[submodule "pack/mahoneko/start/vim-json"]
+	path = pack/mahoneko/start/vim-json
+	url = https://github.com/elzr/vim-json.git
+[submodule "pack/mahoneko/start/vim-monokai"]
+	path = pack/mahoneko/start/vim-monokai
+	url = https://github.com/crusoexia/vim-monokai.git

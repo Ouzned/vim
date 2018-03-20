@@ -1,39 +1,33 @@
 "Basic settings {{{
 set nowrap
-"Activate xml folding
-let g:xml_syntax_folding=1
-"Insert space instead of tabs
 set expandtab
-"Inserer 4 espaces à la place d'une tabulation
 set tabstop=4
-"Nombre d'espace par niveau d'indentation
 set shiftwidth=4
-"Numéro de ligne
 set number
-"Permet de masquer un buffer modifié
 set hidden
-"Active le menu d'autocomplétion
 set wildmenu
-"Affiche les commandes en cours de saisie
 set showcmd
-"Affiche le bandeau du bas avec le nom de fichier
 set laststatus=2
-"Ne pas écrire dans le fichier .viminfo
 set viminfo="NONE"
-"Indente une ligne comme la ligne du dessus
 set autoindent
-"Commencer à chercher dès le début de saisie
 set incsearch
-"Surligner les matchs de recherche
 set hlsearch
-"Set background color
 set background=dark
-"Select nice colorscheme
-colorscheme solarized
+
+set statusline=
+set statusline+=\ %f
+set statusline+=\ %y
+set statusline+=\ %m
+set statusline+=\ %r
+set statusline+=%=
+set statusline+=\ \[%{&fileencoding},\ %{&fileformat}\]
+set statusline+=\ L:%l/%L
+set statusline+=\ C:%c\ 
+
+colorscheme monokai
 filetype indent plugin on
-"Activate syntax coloring
 syntax on
-"Custom key used for mappings
+
 let mapleader = "ù"
 let maplocalleader = "ù"
 " }}}
@@ -47,19 +41,12 @@ let g:netrw_dirhistmax = 0
 "Normal mode mappings {{{
 nnoremap <leader>ev :edit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
-" Wraps the word between double quotes
 nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
-" Wraps the word between single quotes
 nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel
-" Jumps to tag definition
 nnoremap <leader>t <c-]>
-" Jumps to tag definition in a new window
 nnoremap <leader>tw <c-w>]
-" Jumps to next matching tag
 nnoremap <leader>tn :tnext<cr>
-" Jumps to previous matching tag
 nnoremap <leader>tp :tprev<cr>
-" Prints buffer list and prompts to select buffer number
 nnoremap <leader>b :buffers<cr>:b<space>
 " }}}
 
@@ -68,18 +55,14 @@ inoremap jk <esc>
 " }}}
 
 " Operator pending mode mappings {{{
-" Apply command on all text located bewteen next parenthesis
 onoremap in( :<c-u>normal! f(vi(<cr>
-" Apply command on all text located between previous parenthesis
 onoremap il( :<c-u>normal! F)vi(<cr>
-" Apply command up to previous =
 onoremap = :<c-u>normal! F=llv$<cr>
 " }}}
 
 "HTML settings {{{
 augroup filetype_html
     autocmd!
-    "Formats the entire file
     autocmd BufRead *.html :normal gg=G
     autocmd FileType html nnoremap <buffer> <localleader>f Vatzf
 augroup END
@@ -90,6 +73,8 @@ augroup filetype_xml
     autocmd!    
     autocmd FileType xml setlocal foldlevelstart=3
     autocmd FileType xml setlocal foldmethod=syntax
+
+    let g:xml_syntax_folding=1
 augroup END
 " }}}
 
@@ -107,18 +92,14 @@ augroup END
 "Vimscript settings {{{
 augroup filetype_vim
     autocmd!
-    "Close all folds on startup
     autocmd FileType vim setlocal foldlevelstart=0
-    "Enables code folding using markers {{{ and }}}
-    autocmd FileType vim setlocal foldmethod=marker
-    "Adds vimscript comments
     autocmd FileType vim nnoremap <buffer> <localleader>c I"<esc>
+    autocmd FileType vim setlocal foldmethod=marker
 augroup END
 " }}}
 
 "VIM help settings {{{
 augroup filetype_help
-    "Display all the characters
     autocmd FileType help setlocal conceallevel=0
 augroup END
 "}}}
@@ -130,24 +111,6 @@ augroup filetype_haskell
 augroup END
 "}}}
 
-"CtrlP settings {{{
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\.git$\|\.yardoc\|node_modules\|log\|tmp$',
-  \ 'file': '\.so$\|\.dat$|\.DS_Store$'
-\}
-"}}}
-
-"Syntastic settings {{{
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-" }}}
-
 "CSS settings {{{
 augroup filetype_css
     autocmd!
@@ -155,3 +118,5 @@ augroup filetype_css
 augroup END
 " }}}
 
+packloadall
+silent! helptags ALL
