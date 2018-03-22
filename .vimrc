@@ -88,8 +88,6 @@ augroup END
 
 "XML settings {{{
 augroup filetype_xml
-    let g:xml_syntax_folding=1
-
     autocmd!   
     autocmd FileType xml setlocal foldlevelstart=3
     autocmd FileType xml setlocal foldmethod=syntax
